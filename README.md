@@ -264,7 +264,7 @@ Valid Values:   true, false
 Default:        false
 ```
 
-`parseBool=true` changes the output type of `BIT` values to `bool` instead of `[]byte` / `string`
+`parseBool=true` change db type `bit` to go `bool` instead of `[]byte` / `string`
 
 
 ##### `readTimeout`
