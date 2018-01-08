@@ -1209,7 +1209,12 @@ func (rows *binaryRows) readRow(dest []driver.Value) error {
 			fieldTypeVarString, fieldTypeString, fieldTypeGeometry, fieldTypeJSON:
 			var isNull bool
 			var n int
-			dest[i], isNull, n, err = readLengthEncodedString(data[pos:])
+			if rows.columns[i].fieldType == fieldTypeBit && rows.mc.parseBool {
+				dest[i] = data[pos+1] == 0x01
+				n = 2
+			} else {
+				dest[i], isNull, n, err = readLengthEncodedString(data[pos:])
+			}
 			pos += n
 			if err == nil {
 				if !isNull {

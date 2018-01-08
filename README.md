@@ -256,6 +256,16 @@ Default:        false
 
 `parseTime=true` changes the output type of `DATE` and `DATETIME` values to `time.Time` instead of `[]byte` / `string`
 
+##### `parseBool`
+
+```
+Type:           bool
+Valid Values:   true, false
+Default:        false
+```
+
+`parseBool=true` changes the output type of `BIT` values to `bool` instead of `[]byte` / `string`
+
 
 ##### `readTimeout`
 

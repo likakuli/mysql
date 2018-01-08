@@ -54,6 +54,7 @@ type Config struct {
 	MultiStatements         bool // Allow multiple statements in one query
 	ParseTime               bool // Parse time values to time.Time
 	Strict                  bool // Return warnings as errors
+	ParseBool               bool
 }
 
 // FormatDSN formats the given Config into a DSN string which can be passed to
@@ -182,6 +183,15 @@ func (cfg *Config) FormatDSN() string {
 		} else {
 			hasParam = true
 			buf.WriteString("?parseTime=true")
+		}
+	}
+
+	if cfg.ParseBool {
+		if hasParam {
+			buf.WriteString("&parseBool=true")
+		} else {
+			hasParam = true
+			buf.WriteString("?parseBool=true")
 		}
 	}
 
@@ -461,6 +471,14 @@ func parseDSNParams(cfg *Config, params string) (err error) {
 		case "parseTime":
 			var isBool bool
 			cfg.ParseTime, isBool = readBool(value)
+			if !isBool {
+				return errors.New("invalid bool value: " + value)
+			}
+
+		// bool parsing
+		case "parseBool":
+			var isBool bool
+			cfg.ParseBool, isBool = readBool(value)
 			if !isBool {
 				return errors.New("invalid bool value: " + value)
 			}
